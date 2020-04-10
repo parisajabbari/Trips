@@ -12,7 +12,7 @@ namespace TripPlanner.Controllers
             _services = services;
         }
 
-        [HttpPost ("Add Trip")]
+        [HttpPost ("AddTrip")]
         public IActionResult AddTrip([FromBody]Trip trip)
         {
             if( trip != null )
@@ -28,6 +28,27 @@ namespace TripPlanner.Controllers
         {
             var AllTrips = _services.GetAllTrips();
             return Ok(AllTrips);
+        }
+
+        [HttpGet("SingleTrip/{tripId}")]
+        public IActionResult GetTripById(int tripId)
+        {
+            var trip = _services.GetTripById(tripId);
+            return Ok(trip);
+        }
+
+        [HttpPut("UpdateTrip/{id}")]
+        public IActionResult UpdateTrip(int id, [FromBody]Trip trip)
+        {
+            _services.updateTrip(id, trip);
+            return Ok(trip);
+        }
+
+        [HttpDelete("DeleteTrip/{id}")]
+        public IActionResult DeleteTrip(int id)
+        {
+            _services.DeleteTrip(id);
+            return Ok();
         }
     }
 }
