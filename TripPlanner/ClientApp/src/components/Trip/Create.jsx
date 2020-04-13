@@ -54,9 +54,9 @@ export class Create extends Component{
             dateCompleted: this.state.dateCompleted
         }
 
-        axios.post("api/Trips/AddTrip", tripObject);/*.then(result => {
+        axios.post("api/Trips/AddTrip", tripObject).then(result => {
             history.push('/trips'); 
-        })*/
+        })
     }
 
     render(){
