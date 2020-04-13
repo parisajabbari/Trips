@@ -12,7 +12,7 @@ namespace TripPlanner.Controllers
             _services = services;
         }
 
-        [HttpPost ("AddTrip")]
+        [HttpPost("AddTrip")]
         public IActionResult AddTrip([FromBody]Trip trip)
         {
             if( trip != null )
