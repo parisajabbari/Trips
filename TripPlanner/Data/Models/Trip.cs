@@ -12,6 +12,10 @@ namespace  TripPlanner.Data
         public DateTime DateStarted { get; set; }
         public DateTime? DateCompleted { get; set; }
 
+        public Trip()
+        {
+        }
+        
         public Trip(int id, string name, string description, DateTime dateStarted, DateTime? dateCompleted)
         {
             this.Id = id;
