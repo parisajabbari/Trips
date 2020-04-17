@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using TripPlanner.Data;
 
@@ -26,8 +27,14 @@ namespace TripPlanner.Controllers
         [HttpGet ("[action]")]
         public IActionResult GetTrips()
         {
-            var AllTrips = _services.GetAllTrips();
-            return Ok(AllTrips);
+            try{
+                var AllTrips = _services.GetAllTrips();
+                return Ok(AllTrips);
+
+            }catch(Exception ex){
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpGet("SingleTrip/{tripId}")]

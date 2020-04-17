@@ -11,7 +11,9 @@ export class Trips extends Component
 
         this.state = {
             trips : [],
-            loading : true     
+            loading : true,
+            failed : false,
+            error : ''   
         }
     }
 
@@ -32,7 +34,9 @@ export class Trips extends Component
     populateTripsData(){
         axios.get("api/trips/GetTrips").then(result => {
             const response = result.data;
-            this.setState({trips : response, loading : false});
+            this.setState({trips : response, loading : false, failed : false, error : ''});
+        }).catch(error =>{
+            this.setState({trips : [], loading : false, failed : true, error : 'Trips could not be loaded'});
         })
     }
 
@@ -84,8 +88,12 @@ export class Trips extends Component
             <p> 
                 <em>Loading...</em>
             </p>
-        ) : (
-                this.RenderAllTripsTable(this.state.trips)
+        ) : (this.state.failed ? (
+            <div className="text-danger"> 
+                <em>{this.state.error}</em>
+            </div>
+        ) : (this.RenderAllTripsTable(this.state.trips))
+                
         )
 
         return(
