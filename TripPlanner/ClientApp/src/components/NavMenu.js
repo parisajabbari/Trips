@@ -2,33 +2,18 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import {useAuth0} from '../auth0-wrapper';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+const Navmenu = () => {
+  const {isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  constructor (props) {
-    super(props);
+  return (
+    <header>
+      <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+        <Container>
+          <NavbarBrand tag={Link} to="/">TripPlanner</NavbarBrand>
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
-  }
-
-  toggleNavbar () {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-
-  render () {
-    return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
-          <Container>
-            <NavbarBrand tag={Link} to="/">TripPlanner</NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-            <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
+            {isAuthenticated ? (
               <ul className="navbar-nav flex-grow">
               <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/create">Create</NavLink>
@@ -36,13 +21,24 @@ export class NavMenu extends Component {
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/trips">Trips</NavLink>
                 </NavItem>
-
-
+                <NavItem>
+                  <button className="tbtn btn-danger" onClick={() => logout()} >Log out </button>
+                </NavItem>
               </ul>
-            </Collapse>
-          </Container>
-        </Navbar>
-      </header>
-    );
-  }
+            ) : (
+              <ul className="navbar-nav flex-grow">
+                <NavItem>
+                  <button className="tbtn btn-success" onClick={() => loginWithRedirect()} >Login </button>
+                </NavItem>
+              </ul>
+            )}
+
+
+
+        </Container>
+      </Navbar>
+    </header>
+  );
 }
+
+export default Navmenu;
